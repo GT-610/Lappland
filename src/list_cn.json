@@ -28,20 +28,20 @@
         "zip": "xz"
     },
     "debian": {
-        "version": "buster",
+        "version": "bullseye",
         "lxc": true,
-        "aarch64": "https://mirrors.tuna.tsinghua.edu.cn/lxc-images/images/debian/buster/arm64/default/",
-        "armhf": "https://mirrors.tuna.tsinghua.edu.cn/lxc-images/images/debian/buster/armhf/default/",
-        "amd64": "https://mirrors.tuna.tsinghua.edu.cn/lxc-images/images/debian/buster/amd64/default/",
-        "i386": "https://mirrors.tuna.tsinghua.edu.cn/lxc-images/images/debian/buster/i386/default/",
+        "aarch64": "https://mirrors.tuna.tsinghua.edu.cn/lxc-images/images/debian/bullseye/arm64/default/",
+        "armhf": "https://mirrors.tuna.tsinghua.edu.cn/lxc-images/images/debian/bullseye/armhf/default/",
+        "amd64": "https://mirrors.tuna.tsinghua.edu.cn/lxc-images/images/debian/bullseye/amd64/default/",
+        "i386": "https://mirrors.tuna.tsinghua.edu.cn/lxc-images/images/debian/bullseye/i386/default/",
         "check": "lxc",
         "zip": "xz"
     },
     "fedora": {
-        "version": 33,
-        "aarch64": "https://mirrors.bfsu.edu.cn/fedora/releases/33/Container/aarch64/images/Fedora-Container-Base-33-1.2.aarch64.tar.xz",
-        "amd64": "https://mirrors.bfsu.edu.cn/fedora/releases/33/Container/x86_64/images/Fedora-Container-Base-33-1.2.x86_64.tar.xz",
-        "armhf": "https://mirrors.bfsu.edu.cn/fedora/releases/33/Container/armhfp/images/Fedora-Container-Base-33-1.2.armhfp.tar.xz",
+        "version": 34,
+        "aarch64": "https://mirrors.bfsu.edu.cn/fedora/releases/34/Container/aarch64/images/Fedora-Container-Base-33-1.2.aarch64.tar.xz",
+        "amd64": "https://mirrors.bfsu.edu.cn/fedora/releases/34/Container/x86_64/images/Fedora-Container-Base-33-1.2.x86_64.tar.xz",
+        "armhf": "https://mirrors.bfsu.edu.cn/fedora/releases/34/Container/armhfp/images/Fedora-Container-Base-33-1.2.armhfp.tar.xz",
         "check": "no",
         "zip": "fedora"
     },
