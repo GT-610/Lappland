@@ -2,8 +2,6 @@
 Python script to help you run GNU/Linux distributions on Termux without root.
 Fork of https://github.com/YadominJinta/atilo.
 
-[简体中文](https://github.com/YadominJinta/atilo/blob/master/CN/README_CN.md)
-
 ## Installation
 
 WIP
