@@ -18,6 +18,7 @@ home = os.getenv('HOME')
 lappland_home = home + '/.lappland/'
 lappland_tmp  = lappland_home + 'tmp/'
 lappland_conf = lappland_home + 'local.json'
+lappland_remote = lappland_home + 'remote.json'
 ver = '2.99.0'
 
 # make config folder
@@ -43,26 +44,10 @@ def check_arch():
         exit(1)
     return arch
 
-# Check if the package exists
-def load_local():
-    if not os.path.isfile(lappland_config):
-        with open(lappland_config,'w') as f:
-            arch = check_arch()
-            data = {
-                'config': {
-                    'arch': arch,
-                    'version': ver
-                }
-            }
-            json.dump(data,indent=4,fp=f)
-    with open(lappland_config,'r') as f:
-        config = json.load(f)
-    return config
-
 # Get list
 def get_list():
     try:
-        r = requests.get('https://cdn.jsdelivr.net/gh/GT-610/lappland@latest/src/list.json')
+        r = requests.get('https://cdn.jsdelivr.net/gh/GT-610/lappland/src/list.json')
     except requests.exceptions.ConnectionError as e:
         print('Connection error:', e)
         exit(1)
@@ -71,14 +56,24 @@ def get_list():
         exit(1)
     return r.json()
 
-#Save to local data
+#Save the remote data
 def save_local(data):
-    with open(lappland_conf, 'w') as file:
+    with open(lappland_remote, 'w') as file:
         json.dump(data, file)
 
-#Define load local data
-def load_local():
-    with open(lappland_conf, 'r') as file:
+#Load local data
+def load_local(conf):
+    if not os.path.isfile(lappland_conf):
+        with open(lappland_conf,'w') as f:
+            arch = check_arch()
+            data = {
+                'config': {
+                    'arch': arch,
+                    'version': ver
+                }
+            }
+            json.dump(data,indent=4,fp=f)
+    with open(conf, 'r') as file:
         return json.load(file)
 
 #Using hashes (MD5 and SHA256) to check its status
@@ -92,17 +87,17 @@ def calc_md5(data):
 
 #Define a bool to return if the list is up to date
 def is_local_list_up_to_date(remote_md5,remote_sha256):
-    if not os.path.isfile(lappland_conf):
+    if not os.path.isfile(lappland_remote):
         return False
-    local_data = load_local()
+    local_data = load_local(lappland_remote)
     local_md5 = calc_md5(local_data)
     local_sha256 = calc_sha256(local_data)
     if local_md5 == remote_md5 and local_sha256 == remote_sha256:
         return True
 
 def show_list():
-    if os.path.isfile(lappland_conf):
-        with open(lappland_conf, 'r') as file:
+    if os.path.isfile(lappland_remote):
+        with open(lappland_remote, 'r') as file:
             local_data = json.load(file)
             remote_data = get_list()
             print('Checking remote list...')
@@ -120,13 +115,13 @@ def show_list():
         data = get_list()
         save_local(data)
 
-    config = load_local()
+    config = load_local(lappland_conf)
     table = PrettyTable()
     arch = check_arch()
     table.field_names = ["Name","Version","Installed","Installable"]
-    for i in lists.get('linux'):
+    for i in data.get('linux'):
         name = i
-        infos = lists.get(name)
+        infos = data.get(name)
         version = infos.get ('version')
         installed = name in config.keys()
         installable = arch in infos.keys()
