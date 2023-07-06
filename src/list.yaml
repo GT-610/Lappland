@@ -1,0 +1,60 @@
+alpine:
+  aarch64: http://dl-cdn.alpinelinux.org/alpine/v3.18/releases/aarch64/alpine-minirootfs-3.18.2-aarch64.tar.gz
+  amd64: http://dl-cdn.alpinelinux.org/alpine/v3.18/releases/x86_64/alpine-minirootfs-3.18.2-x86_64.tar.gz
+  armhf: http://dl-cdn.alpinelinux.org/alpine/v3.18/releases/armhf/alpine-minirootfs-3.18.2-armhf.tar.gz
+  check: sha256
+  i386: http://dl-cdn.alpinelinux.org/alpine/v3.18/releases/x86/alpine-minirootfs-3.18.2-x86.tar.gz
+  shell: ash
+  version: 3.18
+  zip: gz
+centos:
+  aarch64: https://github.com/CentOS/sig-cloud-instance-images/raw/CentOS-8.1.1911-aarch64/docker/CentOS-8-Container-8.1.1911-20200113.3-layer.aarch64.tar.xz
+  amd64: https://github.com/CentOS/sig-cloud-instance-images/raw/CentOS-8.1.1911-x86_64/docker/CentOS-8-Container-8.1.1911-20200113.3-layer.x86_64.tar.xz
+  check: 'no'
+  version: 8.1
+  zip: xz
+debian:
+  aarch64: https://github.com/debuerreotype/docker-debian-artifacts/raw/dist-arm64v8/buster/slim/rootfs.tar.xz
+  amd64: https://github.com/debuerreotype/docker-debian-artifacts/raw/dist-amd64/buster/slim/rootfs.tar.xz
+  armhf: https://github.com/debuerreotype/docker-debian-artifacts/raw/dist-arm32v7/buster/slim/rootfs.tar.xz
+  check: sha256
+  i386: https://github.com/debuerreotype/docker-debian-artifacts/raw/dist-i386/buster/slim/rootfs.tar.xz
+  version: 10
+  zip: xz
+fedora:
+  aarch64: https://dl.fedoraproject.org/pub/fedora/linux/releases/38/Container/aarch64/images/Fedora-Container-Base-38-1.6.aarch64.tar.xz
+  amd64: https://dl.fedoraproject.org/pub/fedora/linux/releases/38/Container/x86_64/images/Fedora-Container-Base-38-1.6.x86_64.tar.xz
+  check: 'no'
+  version: 38
+  zip: xz
+kali:
+  aarch64: https://github.com/EXALAB/Anlinux-Resources/raw/master/Rootfs/Kali/arm64/kali-rootfs-arm64.tar.xz
+  amd64: https://github.com/EXALAB/Anlinux-Resources/raw/master/Rootfs/Kali/amd64/kali-rootfs-amd64.tar.xz
+  armhf: https://github.com/EXALAB/Anlinux-Resources/raw/master/Rootfs/Kali/armhf/kali-rootfs-armhf.tar.xz
+  check: 'no'
+  i386: https://github.com/EXALAB/Anlinux-Resources/raw/master/Rootfs/Kali/i386/kali-rootfs-i386.tar.xz
+  version: latest
+  zip: xz
+linux:
+- alpine
+- centos
+- debian
+- fedora
+- kali
+- opensuse
+- ubuntu
+opensuse:
+  aarch64: http://download.opensuse.org/ports/aarch64/distribution/leap/15.2/appliances/openSUSE-Leap-15.2-ARM-JeOS.aarch64-rootfs.aarch64.tar.xz
+  armhf: http://download.opensuse.org/ports/armv7hl/distribution/leap/15.2/appliances/openSUSE-Leap-15.2-ARM-JeOS.armv7-rootfs.armv7l.tar.xz
+  check: sha256
+  version: 15.2
+  zip: xz
+ubuntu:
+  aarch64: https://partner-images.canonical.com/core/focal/current/ubuntu-focal-core-cloudimg-arm64-root.tar.gz
+  amd64: https://partner-images.canonical.com/core/focal/current/ubuntu-focal-core-cloudimg-amd64-root.tar.gz
+  armhf: https://partner-images.canonical.com/core/focal/current/ubuntu-focal-core-cloudimg-armhf-root.tar.gz
+  check: ubuntu
+  i386: https://partner-images.canonical.com/core/focal/current/ubuntu-focal-core-cloudimg-i386-root.tar.gz
+  version: focal
+  zip: gz
+update: '2023-07-06'
