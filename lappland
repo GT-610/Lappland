@@ -6,19 +6,20 @@ import argparse
 import hashlib
 import io
 import json
+import yaml
 import os
 import requests
 import sys
 import tarfile
-from prettytable import PrettyTable 
+from prettytable import PrettyTable
 from tqdm import tqdm
 
 # Necessary variables
 home = os.getenv('HOME')
-lappland_home = home + '/.lappland/'
+lappland_home = home + '/.config/lappland/'
 lappland_tmp  = lappland_home + 'tmp/'
-lappland_conf = lappland_home + 'local.json'
-lappland_remote = lappland_home + 'remote.json'
+lappland_conf = lappland_home + 'local.yaml'
+lappland_remote = lappland_home + 'remote.yaml'
 ver = '2.99.0'
 
 # make config folder
@@ -47,43 +48,43 @@ def check_arch():
 # Get list
 def get_list():
     try:
-        r = requests.get('https://cdn.jsdelivr.net/gh/GT-610/lappland/src/list.json')
+        r = requests.get('https://cdn.jsdelivr.net/gh/GT-610/lappland/src/list.yaml')
     except requests.exceptions.ConnectionError as e:
         print('Connection error:', e)
         exit(1)
     if not r.status_code == 200:
         print('Failed to get image list.')
         exit(1)
-    return r.json()
+    return yaml.load(r.text, Loader = yaml.SafeLoader)
 
 #Save the remote data
 def save_local(data):
     with open(lappland_remote, 'w') as file:
-        json.dump(data, file)
+        yaml.dump(data, file)
 
 #Load local data
 def load_local(conf):
     if not os.path.isfile(lappland_conf):
-        with open(lappland_conf,'w') as f:
-            arch = check_arch()
-            data = {
-                'config': {
-                    'arch': arch,
-                    'version': ver
-                }
+        arch = check_arch()
+        data = {
+            'config': {
+                'arch': arch,
+                'version': ver
             }
-            json.dump(data,indent=4,fp=f)
+        }
+        with open(lappland_conf, 'w') as f:
+            yaml.dump(data, f)
     with open(conf, 'r') as file:
-        return json.load(file)
+        return yaml.load(file, Loader = yaml.SafeLoader)
 
 #Using hashes (MD5 and SHA256) to check its status
 #Calculate SHA256
 def calc_sha256(data):
-    return hashlib.sha256(json.dumps(data).encode()).hexdigest()
+    return hashlib.sha256(yaml.dump(data).encode()).hexdigest()
 
 #Calculate MD5SUMS
 def calc_md5(data):
-    return hashlib.md5(json.dumps(data).encode()).hexdigest()
+    return hashlib.md5(yaml.dump(data).encode()).hexdigest()
 
 #Define a bool to return if the list is up to date
 def is_local_list_up_to_date(remote_md5,remote_sha256):
@@ -99,7 +100,7 @@ def is_local_list_up_to_date(remote_md5,remote_sha256):
 def show_list():
     if os.path.isfile(lappland_remote):
         with open(lappland_remote, 'r') as file:
-            local_data = json.load(file)
+            local_data = yaml.load(file,Loader=yaml.SafeLoader)
             remote_data = get_list()
             print('Checking remote list...')
             remote_sha256 = calc_sha256(remote_data)
@@ -190,7 +191,7 @@ def remove_image(distro):
     config = load_local()
     del config[distro]
     with open(lappland_config,'w') as f:
-        json.dump(config,indent=4,fp=f)
+        yaml.dump(config,indent=4,fp=f)
 
 
 def config_image(distro,infos):
@@ -203,7 +204,7 @@ def config_image(distro,infos):
     config = load_local()
     config.update({distro : infos})
     with open(lappland_config,'w') as f:
-        json.dump(config,indent=4,fp=f)
+        yaml.dump(config,indent=4,fp=f)
     print('All done')
     print('Run it with lappland run ' + distro)
     
