@@ -10,7 +10,7 @@
     ],
     "update": "2023-07-06",
     "alpine": {
-        "version": 3.18.2,
+        "version": 3.18,
         "shell": "ash",
         "aarch64": "http://dl-cdn.alpinelinux.org/alpine/v3.18/releases/aarch64/alpine-minirootfs-3.18.2-aarch64.tar.gz",
         "armhf": "http://dl-cdn.alpinelinux.org/alpine/v3.18/releases/armhf/alpine-minirootfs-3.18.2-armhf.tar.gz",
