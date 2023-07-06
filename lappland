@@ -1,8 +1,6 @@
 #! /usr/bin/env python3
-
-# Copyright 2017-2020 by YadominJinta. All rights reserved.
 # Copyright 2022-2023 GT610. Licensed under GNU GPLv3.
-# Repo URL: https://github.com/GT-610/Lappland
+# Repo URL: https://codeberg.org/GT610/lappland
 
 import argparse
 import hashlib
@@ -296,7 +294,6 @@ def run_image(arg):
             for line in f:
                 args = line.split(":")
                 passwd_dict[args[0]]=args[6]
-
             shell=passwd_dict['root'].strip().split('/')
             if (shell[-1] != '' and len(shell[-1]) != 0):
                 command += shell[-1]
@@ -311,12 +308,12 @@ def run_image(arg):
         os.system(command)
 
 # Define help message
-helpmessage = 'Project Lappland ' + ver + '\nA small tool to install GNU/Linux distributions on Termux.\nUsage: lappland [Command] [Argument]\nCommands:\nimages\t\t list available images\nremove\t\t remove installed images\npull\t\t pulling an image\nrun\t\t run an image\nclean\t\t clean temp files\nhelp\t\t show this help.\n'
+helpmessage = 'Project Lappland ' + ver + '\n\n images\t\t list available images\n remove\t\t remove a local image\n pull\t\t pulling a remote image\n run\t\t start a local image\n clean\t\t clean temporary files\n help\t\t show this detailed help'
 
 # Parse auguments:
 def parse_args():
     parser = argparse.ArgumentParser(prog='Lappland',description=helpmessage)
-    parser.add_argument('command', choices=['images', 'remove', 'pull', 'run', 'clean', 'help'], help='A command is needed.')
+    parser.add_argument('command', choices=['images', 'remove', 'pull', 'run', 'clean', 'help'], help='Run \'help\' for detailed usage.')
     # parser.add_argument('--fsdir', help='Specify a filesystem directory.')
     # parser.add_argument('--user', help='Specify a user.')
     return parser.parse_args()
