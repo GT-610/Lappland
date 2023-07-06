@@ -1,5 +1,6 @@
 .vscode/
 .venv/
+./github
 test_env/
 atilo.1/
 atilo
