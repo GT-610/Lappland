@@ -308,7 +308,7 @@ def run_image(arg):
         os.system(command)
 
 # Define help message
-helpmessage = 'Project Lappland ' + ver + '\n\n images\t\t list available images\n remove\t\t remove a local image\n pull\t\t pulling a remote image\n run\t\t start a local image\n clean\t\t clean temporary files\n help\t\t show this detailed help'
+helpmessage = 'Project Lappland ' + ver + '\n\n images\t\t list remote images\n remove\t\t remove a local image\n pull\t\t pull a remote image\n run\t\t start a local image\n clean\t\t clean temporary files\n help\t\t show this detailed help'
 
 # Parse auguments:
 def parse_args():
