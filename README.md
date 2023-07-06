@@ -43,7 +43,7 @@ lappland [Command] [Argument]
 
 **[EXALAB/AnLinux-App](https://github.com/EXALAB/AnLinux-App)**: APP to help install Linux on termux.
 
-**[YadominJinta/atilo](https://github.com/YadominJinta/atilo/)**:Linux installer for Termux<br>
+**[YadominJinta/atilo](https://github.com/YadominJinta/atilo/)**: Linux installer for Termux<br>
 
 **[sdrausty/TermuxArch](https://github.com/sdrausty/TermuxArch)**: Arch install script
 

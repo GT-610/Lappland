@@ -40,7 +40,7 @@ def check_arch():
     elif 'arm' in arch:
         arch = 'armhf'
     else:
-        print('Your device''s CPU architecture is not in support currently. Want support? Leave your needs in https://codeberg.org/GT610/lappland/issues/1 .')
+        print('Your device''s CPU architecture is not in support currently.\nWant support? Leave your needs in https://codeberg.org/GT610/lappland/issues/1 .')
         exit(1)
     return arch
 
@@ -95,6 +95,7 @@ def is_local_list_up_to_date(remote_md5,remote_sha256):
     if local_md5 == remote_md5 and local_sha256 == remote_sha256:
         return True
 
+#Show the list (called by 'images' command)
 def show_list():
     if os.path.isfile(lappland_remote):
         with open(lappland_remote, 'r') as file:
@@ -107,13 +108,15 @@ def show_list():
                 print("Local image list is up to date.")
                 data = local_data
             else:
-                print("Fetching remote image list.")
+                print("Fetching remote image list...")
                 data = remote_data
                 save_local(data)
+                print('Done.')
     else:
         print("Fetching remote image list.")
         data = get_list()
         save_local(data)
+        print('Done.')
 
     config = load_local(lappland_conf)
     table = PrettyTable()
@@ -135,18 +138,17 @@ def pull_image(distro):
     config = load_local()
     distro_tmp = lappland_tmp + distro
     if distro in config.keys():
-        print('You have installed ' + distro)
+        print(distro + ' have been already installed')
         exit(1)
     if distro not in lists.keys():
-        print(distro + ' not found')
+        print(distro + ' isn''t avaliable')
         exit(1)
     infos = lists.get(distro)
     if arch not in infos.keys():
-        print(distro + ' not support your arch')
+        print(distro + ' doesn''t support your CPU architecture')
         exit(1)
     if os.path.isfile(distro_tmp):
-        print(distro + ' already downloaded')
-        print('Skipping download')
+        print(distro + ' already downloaded, skipping downloading...')
     else:
         url = infos.get(arch)
         print('Pulling rootfs')

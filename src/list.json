@@ -8,14 +8,14 @@
         "opensuse",
         "ubuntu"
     ],
-    "update": "2020-12-03",
+    "update": "2023-07-06",
     "alpine": {
-        "version": 3.12,
+        "version": 3.18.2,
         "shell": "ash",
-        "aarch64": "http://dl-cdn.alpinelinux.org/alpine/v3.12/releases/aarch64/alpine-minirootfs-3.12.0-aarch64.tar.gz",
-        "armhf": "http://dl-cdn.alpinelinux.org/alpine/v3.12/releases/armhf/alpine-minirootfs-3.12.0-armhf.tar.gz",
-        "amd64": "http://dl-cdn.alpinelinux.org/alpine/v3.12/releases/x86_64/alpine-minirootfs-3.12.0-x86_64.tar.gz",
-        "i386": "http://dl-cdn.alpinelinux.org/alpine/v3.12/releases/x86/alpine-minirootfs-3.12.0-x86.tar.gz",
+        "aarch64": "http://dl-cdn.alpinelinux.org/alpine/v3.18/releases/aarch64/alpine-minirootfs-3.18.2-aarch64.tar.gz",
+        "armhf": "http://dl-cdn.alpinelinux.org/alpine/v3.18/releases/armhf/alpine-minirootfs-3.18.2-armhf.tar.gz",
+        "amd64": "http://dl-cdn.alpinelinux.org/alpine/v3.18/releases/x86_64/alpine-minirootfs-3.18.2-x86_64.tar.gz",
+        "i386": "http://dl-cdn.alpinelinux.org/alpine/v3.18/releases/x86/alpine-minirootfs-3.18.2-x86.tar.gz",
         "check": "sha256",
         "zip": "gz"
     },
@@ -36,12 +36,11 @@
         "zip": "xz"
     },
     "fedora": {
-        "version": 33,
-        "aarch64": "https://dl.fedoraproject.org/pub/fedora/linux/releases/33/Container/aarch64/images/Fedora-Container-Base-33-1.2.aarch64.tar.xz",
-        "amd64": "https://dl.fedoraproject.org/pub/fedora/linux/releases/33/Container/x86_64/images/Fedora-Container-Base-33-1.2.x86_64.tar.xz",
-        "armhf": "https://dl.fedoraproject.org/pub/fedora/linux/releases/33/Container/armhfp/images/Fedora-Container-Base-33-1.2.armhfp.tar.xz",
+        "version": 38,
+        "aarch64": "https://dl.fedoraproject.org/pub/fedora/linux/releases/38/Container/aarch64/images/Fedora-Container-Base-38-1.6.aarch64.tar.xz",
+        "amd64": "https://dl.fedoraproject.org/pub/fedora/linux/releases/38/Container/x86_64/images/Fedora-Container-Base-38-1.6.x86_64.tar.xz",
         "check": "no",
-        "zip": "fedora"
+        "zip": "xz"
     },
     "kali": {
         "version": "latest",
