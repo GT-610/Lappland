@@ -17,8 +17,8 @@ from tqdm import tqdm
 home = os.getenv('HOME')
 lappland_home = home + '/.lappland/'
 lappland_tmp  = lappland_home + 'tmp/'
-lappland_config = lappland_home + 'local.json'
-ver = '3.0.0'
+lappland_conf = lappland_home + 'local.json'
+ver = '2.99.0'
 
 # make config folder
 def check_dir():
@@ -39,7 +39,7 @@ def check_arch():
     elif 'arm' in arch:
         arch = 'armhf'
     else:
-        print('Your device''s CPU architecture is not in support currently. Want support? Leave your needs in https://github.com/GT-610/Lappland/issues/1 .')
+        print('Your device''s CPU architecture is not in support currently. Want support? Leave your needs in https://codeberg.org/GT610/lappland/issues/1 .')
         exit(1)
     return arch
 
@@ -71,8 +71,55 @@ def get_list():
         exit(1)
     return r.json()
 
+#Save to local data
+def save_local(data):
+    with open(lappland_conf, 'w') as file:
+        json.dump(data, file)
+
+#Define load local data
+def load_local():
+    with open(lappland_conf, 'r') as file:
+        return json.load(file)
+
+#Using hashes (MD5 and SHA256) to check its status
+#Calculate SHA256
+def calc_sha256(data):
+    return hashlib.sha256(json.dumps(data).encode()).hexdigest()
+
+#Calculate MD5SUMS
+def calc_md5(data):
+    return hashlib.md5(json.dumps(data).encode()).hexdigest()
+
+#Define a bool to return if the list is up to date
+def is_local_list_up_to_date(remote_md5,remote_sha256):
+    if not os.path.isfile(lappland_conf):
+        return False
+    local_data = load_local()
+    local_md5 = calc_md5(local_data)
+    local_sha256 = calc_sha256(local_data)
+    if local_md5 == remote_md5 and local_sha256 == remote_sha256:
+        return True
+
 def show_list():
-    lists = get_list()
+    if os.path.isfile(lappland_conf):
+        with open(lappland_conf, 'r') as file:
+            local_data = json.load(file)
+            remote_data = get_list()
+            print('Checking remote list...')
+            remote_sha256 = calc_sha256(remote_data)
+            remote_md5 = calc_md5(remote_data)
+            if is_local_list_up_to_date(remote_md5,remote_sha256):
+                print("Local image list is up to date.")
+                data = local_data
+            else:
+                print("Fetching remote image list.")
+                data = remote_data
+                save_local(data)
+    else:
+        print("Fetching remote image list.")
+        data = get_list()
+        save_local(data)
+
     config = load_local()
     table = PrettyTable()
     arch = check_arch()
@@ -100,7 +147,7 @@ def pull_image(distro):
         exit(1)
     infos = lists.get(distro)
     if arch not in infos.keys():
-        print(distro + ' not suppoer your arch')
+        print(distro + ' not support your arch')
         exit(1)
     if os.path.isfile(distro_tmp):
         print(distro + ' already downloaded')
@@ -314,8 +361,6 @@ helpmessage = 'Project Lappland ' + ver + '\n\n images\t\t list remote images\n 
 def parse_args():
     parser = argparse.ArgumentParser(prog='Lappland',description=helpmessage)
     parser.add_argument('command', choices=['images', 'remove', 'pull', 'run', 'clean', 'help'], help='Run \'help\' for detailed usage.')
-    # parser.add_argument('--fsdir', help='Specify a filesystem directory.')
-    # parser.add_argument('--user', help='Specify a user.')
     return parser.parse_args()
 
 
@@ -326,11 +371,7 @@ if __name__ == "__main__":
     check_dir()
     args = parse_args()
     if args.command == 'pull':
-        '''if args.fsdir is None:
-            print('You need to specify a filesystem directory.')
-            exit(1)
-        else:
-            pull_image(args.fsdir)'''
+        pull_image()
     elif args.command == 'images':
         show_list()
     elif args.command == 'remove':
