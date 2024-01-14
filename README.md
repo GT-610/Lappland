@@ -1,9 +1,18 @@
+# ATTENTION!
+This project has **NOT** been finished. It is still **WORKING IN PROGRESS** and can't be used.
+
+I'm re-writing the whole program, and it might take some time.
+
 # Project Lappland
-Python script to help you run GNU/Linux distributions on Termux without root.
-Fork of https://github.com/YadominJinta/atilo.
+Project Lappland is a Python script that helps you run and manage GNU/Linux distributions on Termux without root.
+
+## Features
+* Run, manage and pack your distributions just like managing containers
+* Use multiple mirrors, custom links
+* Run and deploy in a single line
+* No root access is required thanks to `proot`
 
 ## Installation
-
 WIP
 
 ## Usage
@@ -36,6 +45,11 @@ lappland [Command] [Argument]
 ## GUI
 
 [Using GUI on Termux (X11 method)](https://ivonblog.com/en-us/posts/termux-x11/)
+
+# Credits
+This program can't be made without these free and open-source projects:
+
+**[YadominJinta/atilo](https://github.com/YadominJinta/atilo/)**: Linux installer for Termux
 
 # See also
 

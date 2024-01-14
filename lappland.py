@@ -1,5 +1,5 @@
 #! /usr/bin/env python3
-# Copyright 2022-2023 GT610. Licensed under GNU GPLv3.
+# Copyright 2022-2024 GT610. Licensed under GNU GPLv3.
 # Repo URL: https://codeberg.org/GT610/lappland
 
 import argparse
@@ -14,20 +14,27 @@ import tarfile
 from prettytable import PrettyTable
 from tqdm import tqdm
 
+# Local modules
+from container import Container
+from images import Image
+
 # Necessary variables
 home = os.getenv('HOME')
 lappland_home = home + '/.config/lappland/'
-lappland_tmp  = lappland_home + 'tmp/'
+temp_path  = lappland_home + 'tmp/'
+container_path=lappland_home + "containers/"
 lappland_conf = lappland_home + 'local.yaml'
 lappland_remote = lappland_home + 'remote.yaml'
 ver = '2.99.0'
 
-# make config folder
+# create necessary folders
 def check_dir():
     if not os.path.isdir(lappland_home):
         os.mkdir(lappland_home)
-    if not os.path.isdir(lappland_tmp):
-        os.mkdir(lappland_tmp)
+    if not os.path.isdir(container_path):
+        os.mkdir(container_path)
+    if not os.path.isdir(temp_path):
+        os.mkdir(temp_path)
 
 # Check system architecture
 def check_arch():
@@ -137,7 +144,7 @@ def pull_image(distro):
     arch = check_arch()
     lists = get_list()
     config = load_local()
-    distro_tmp = lappland_tmp + distro
+    distro_tmp = temp_path + distro
     if distro in config.keys():
         print(distro + ' have been already installed')
         exit(1)
@@ -161,7 +168,7 @@ def pull_image(distro):
         total_size = int(r.headers.get('Content-Length'))
         block_size = io.DEFAULT_BUFFER_SIZE
         t = tqdm(total=total_size,unit='iB',unit_scale=True)
-        with open(lappland_tmp + distro,'wb') as f:
+        with open(temp_path + distro,'wb') as f:
             for chunk in r.iter_content(block_size):
                 t.update(len(chunk))
                 f.write(chunk)
@@ -210,7 +217,7 @@ def config_image(distro,infos):
     
 def extract_file(distro,zip_m):
     distro_path = lappland_home + distro
-    file_path = lappland_tmp + distro
+    file_path = temp_path + distro
     if os.path.isdir(distro_path):
         os.system('chmod -R 777 ' + distro_path)
         os.system('rm -rf ' + distro_path)
@@ -222,16 +229,16 @@ def extract_file(distro,zip_m):
     zip_f.extractall(distro_path,numeric_owner=True)
 
 def extract_fedora():
-    file_path = lappland_tmp+ 'fedora'
+    file_path = temp_path+ 'fedora'
     distro_path = lappland_home + 'fedora'
     print('Extracting image')
     zip_f = tarfile.open(file_path)
     for i in zip_f.getnames():
         if 'layer.tar' in i:
             zip_name = i
-    zip_f.extract(zip_name,lappland_tmp)
+    zip_f.extract(zip_name,temp_path)
     zip_f.close()
-    zip_f = tarfile.open(lappland_tmp + zip_name,'r')
+    zip_f = tarfile.open(temp_path + zip_name,'r')
     if not os.path.isdir(distro_path):
         os.mkdir(distro_path)
     zip_f.extractall(distro_path,numeric_owner=True)
@@ -240,17 +247,17 @@ def extract_fedora():
 def check_sum(distro,url,check):
     print('Checking file integrity')
     r = requests.get(url)
-    file_path = lappland_tmp + distro
+    file_path = temp_path + distro
     if not r.status_code == 200:
         print('Can''t get checksum file,are you sure to continue? [y/N]',end=' ')
         a = ''
         input(a)
-        if not a == 'y':
+        if a == 'y' or a == 'Y':
+            return
+        else:
             print('Exiting')
             os.remove(file_path)
             exit(1)
-        else:
-            return
     sum_calc = hashlib.md5() if check == 'md5' else  hashlib.sha256()
     total_size = os.path.getsize(file_path)
     block_size = io.DEFAULT_BUFFER_SIZE
@@ -274,7 +281,7 @@ def check_sum(distro,url,check):
 
 def check_sum_ubuntu(distro,url):
     r = requests.get(url)
-    file_path = lappland_tmp + distro
+    file_path = temp_path + distro
     if not r.status_code == 200:
         print('Can''t get checksum file,are you sure to continue? [y/n]',end=' ')
         a = ''
@@ -304,7 +311,7 @@ def check_sum_ubuntu(distro,url):
 
 def clean_tmps():
     print('Cleaning temporary files')
-    os.system('rm -rf ' + lappland_tmp + '*')
+    os.system('rm -rf ' + temp_path + '*')
 
 def run_image(arg):
     distro = arg[0]
@@ -358,7 +365,7 @@ helpmessage = 'Project Lappland ' + ver + '\n\n images\t\t list remote images\n 
 # Parse auguments:
 def parse_args():
     parser = argparse.ArgumentParser(prog='Lappland',description=helpmessage)
-    parser.add_argument('command', choices=['images', 'remove', 'pull', 'run', 'clean', 'help'], help='Run \'help\' for detailed usage.')
+    parser.add_argument('command', choices=['images', 'remove', 'pull', 'run', 'clean', 'help'], help='Run \'lappland help\' for detailed usage.')
     return parser.parse_args()
 
 
@@ -373,9 +380,9 @@ if __name__ == "__main__":
     elif args.command == 'images':
         show_list()
     elif args.command == 'remove':
-        remove_image(args.fsdir)
+        remove_image()
     elif args.command == 'run':
-        run_image(args.fsdir, args.user)
+        run_image()
     elif args.command == 'clean':
         clean_tmps()
     elif args.command == 'help':
