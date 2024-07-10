@@ -3,8 +3,8 @@ This project has **NOT** been finished. It is still **WORKING IN PROGRESS** and 
 
 I'm re-writing the whole program, and it might take some time.
 
-# Project Lappland
-Project Lappland is a Python script that helps you run and manage GNU/Linux distributions on Termux without root.
+# atLAs
+atLAs is a Python script that helps you run and manage GNU/Linux distributions on Termux without root.
 
 ## Features
 * Run, manage and pack your distributions just like managing containers
@@ -18,7 +18,7 @@ WIP
 ## Usage
 
 ``` bash
-lappland [Command] [Argument]
+atlas [Command] [Argument]
 ```
 
 |Command|Meaning                   |
@@ -31,16 +31,7 @@ lappland [Command] [Argument]
 |help   |show detailed help message|
 
 ## Supported distributions
-
-| Distribution  | aarch64 |  arm  | x86_64 | i686  |
-| ------------- | :-----: | :---: | :----: | :---: |
-| Alpine        |    √    |   √   |   √    |   √   |
-| CentOS        |    √    |   ×   |   √    |   ×   |
-| Debian        |    √    |   √   |   √    |   √   |
-| Fedora        |    √    |   √   |   √    |   ×   |
-| Kali          |    √    |   √   |   √    |   √   |
-| openSUSE      |    √    |   √   |   ×    |   ×   |
-| Ubuntu        |    √    |   √   |   √    |   √   |
+WIP
 
 ## GUI
 
@@ -50,12 +41,11 @@ lappland [Command] [Argument]
 This program can't be made without these free and open-source projects:
 
 **[YadominJinta/atilo](https://github.com/YadominJinta/atilo/)**: Linux installer for Termux
+**[termux/proot-distro](https://github.com/termux/proot-distro)**: An utility for managing installations of the Linux distributions in Termux. 
 
 # See also
 
 **[EXALAB/AnLinux-App](https://github.com/EXALAB/AnLinux-App)**: APP to help install Linux on termux.
-
-**[YadominJinta/atilo](https://github.com/YadominJinta/atilo/)**: Linux installer for Termux<br>
 
 **[sdrausty/TermuxArch](https://github.com/sdrausty/TermuxArch)**: Arch install script
 
@@ -68,3 +58,6 @@ This program can't be made without these free and open-source projects:
 **[sp4rkie/debian-on-termux](https://github.com/sp4rkie/debian-on-termux)**: Install Debian 9 (stretch) on your Android smartphone
 
 **[Hax4us/TermuxAlpine](https://github.com/Hax4us/TermuxAlpine)**: Use TermuxAlpine.sh calling to install Alpine Linux in Termux on Android
+
+## License
+GPL-3.0

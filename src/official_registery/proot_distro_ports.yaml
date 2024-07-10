@@ -1,0 +1,37 @@
+distributions:
+  alpine:
+    name: "Alpine"
+    base_url: "https://github.com/termux/proot-distro/releases/download/v4.6.0"
+    versions:
+      - arch: aarch64
+        file: "alpine-aarch64-pd-v4.6.0.tar.xz"
+        sha256: "bffe6373dea84dce6a25c94f225ccdaec96c825710d655aa1f4cae79333edea6"
+      
+      - arch: arm
+        file: "alpine-arm-pd-v4.6.0.tar.xz"
+        sha256: "c89482950298b4ea1e6f2b2bab9eb00697b8fefa313d56585c4f38e8e4ff2860"
+      
+      - arch: i686
+        file: "alpine-i686-pd-v4.6.0.tar.xz"
+        sha256: "f002d1a02efdd5f7e6c81df69c99a74d0022eb56ab7558fa35ac4c5fe0d7d43b"
+
+      - arch: x86_64
+        file: "alpine-x86_64-pd-v4.6.0.tar.xz"
+        sha256: "7b3d51714226cfe1bc1a115316e9d1d9ebc3ac2eb92389bc0e5b5f01ac04ee0b"
+    version: edge
+
+  archlinux:
+    name: "Arch Linux"
+    base_url: "https://github.com/termux/proot-distro/releases/download/v4.6.0"
+    versions:
+      - arch: aarch64
+        file: "archlinux-aarch64-pd-v4.6.0.tar.xz"
+        sha256: "7e87d551845aedae5a111d1fdcc2f5a69b0805f365244f3fab3fe67cd4114f00"
+
+      - arch: arm
+        file: "archlinux-arm-pd-v4.6.0.tar.xz"
+        sha256: 9edc60150ffdeae42b05fdcffdf06226641c442673f66b64af369504abe83a4b"
+    version: rolling
+    setup: "./setup_scripts/archlinux.sh"
+
+update: '2024-07-10'
