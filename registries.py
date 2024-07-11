@@ -24,33 +24,33 @@ def check_registeries_list():
 # Read the registeries list
 # Returns: Specified prefix && location
 def read_registries_list(registries_yaml_path, prefix_image):
-    with open(yaml_path, 'r') as stream:
+    with open(registries_yaml_path, 'r') as stream:
         try:
-            return yaml.safe_load(stream)
+            registries = yaml.safe_load(stream)
         except yaml.YAMLError as e:
             print(f"Error in reading registries list: {e}")
        
     # Parse the prefix
     prefix, _ = prefix_image.split('/')
 
-    for registry in registries.values():
-        if registry['prefix'] == prefix:
-            return registry['prefix'], registry['location']
+    for reg_name, reg_details in registries['registries'].items():
+        print(reg_name)
+        if reg_details.get('prefix') == prefix:
+            return reg_name, reg_details['prefix'], reg_details['location']
 
     print(f"Registry {prefix} not defined in registries list.")
-    return None, None
+    return None, None, None
 
-# Load the remote registry
+# Fetch the remote registry
 # Returns: parsed remote YAML text
-def fetch_remote_registry(location):
-    _, location = read_registries_list(registries_yaml_path, prefix_image)
-    print(f"Fetching {prefix_image}...")
+def fetch_remote_registry(prefix, location):
+    print(f"Fetching {prefix}...")
     response = requests.get(location)
     if response.status_code == 200:
         remote_yaml = yaml.safe_load(response.text)
         return remote_yaml
     else:
-        print(f"Failed to fetch {prefix_image}.")
+        print(f"Failed to reach list of {prefix}. Status code: {response.status_code}")
         return None
 
 
