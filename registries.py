@@ -66,13 +66,12 @@ def read_image(remote_yaml, image_name, arch):
         # 查找匹配架构的版本信息
         for version in image.get('versions', []):
             if version['arch'] == arch:
-                
+                url = image.get('base_url') + version.get('file')
                 # 返回找到的详细信息
                 return {
                     'name': image.get('name'),
-                    'base_url': image.get('base_url'),
+                    'url': url,
                     'arch': version.get('arch'),
-                    'file': version.get('file'),
                     'sha256': version.get('sha256'),
                 }
 

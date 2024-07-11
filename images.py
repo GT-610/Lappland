@@ -10,4 +10,4 @@ registries_yaml_path = os.path.join(registries_path, 'registries.yaml')
 image_info = read_image(registries_yaml_path, prefix_image)
 
 def pull_image(image_info):
-    
+    response = requests.get(url,stream=True)
