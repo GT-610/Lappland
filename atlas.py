@@ -19,16 +19,7 @@ from container import Container
 from images import Image
 import variables
 
-# create necessary folders
-def check_dir():
-    if not os.path.isdir(atlas_home):
-        os.mkdir(atlas_home)
-    if not os.path.isdir(container_path):
-        os.mkdir(container_path)
-    if not os.path.isdir(registries_path):
-        os.mkdir(registries_path)
-    if not os.path.isdir(temp_path):
-        os.mkdir(temp_path)
+check_dir()
 
 
 #Load local data

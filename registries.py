@@ -3,20 +3,20 @@ import requests
 import yaml
 
 # Load modules
-from variables import atlas_home, registries_path
-from userinput import prefix_image
+from variables import atlas_home, registries_path, check_dir
+# from userinput import prefix_image
 
 registries_yaml_path = os.path.join(registries_path, 'registries.yaml')
 
 # Get the registries list
 def check_registeries_list():
-    if not os.path.exists(registries_path):
+    if not os.path.exists(registries_yaml_path):
         print("Registries list not found. fetching from repository...")
         response = requests.get("https://cdn.jsdelivr.net/gh/GT-610/atLAs@master/src/registries.yaml")
         if response.status_code == 200:
             with open(registries_yaml_path, 'w') as file:
                 file.write(response.text)
-            print(f"registries list fetched successfully. Saved at {registries_path}.")
+            print(f"Registries list fetched successfully. Saved at {registries_path}.")
         else:
             print(f"Failed to fetch registries list. Status code: {response.status_code}")
 
