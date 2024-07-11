@@ -1,9 +1,13 @@
-class Image:
-    def __init__(self,name,version,arch,created,path):
-        self.name=name
-        self.version=version
-        self.arch=arch
-        self.created=created
-        self.path=path
+from variables import image_path
+from registries import read_registries_list
 
-    # def pull_image(self,name,version):
+# Load modules
+from registries import read_image
+from variables import atlas_home, registries_path
+from userinput import prefix_image
+
+registries_yaml_path = os.path.join(registries_path, 'registries.yaml')
+image_info = read_image(registries_yaml_path, prefix_image)
+
+def pull_image(image_info):
+    

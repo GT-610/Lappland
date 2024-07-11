@@ -1,4 +1,4 @@
-distributions:
+images:
   alpine:
     base_url: "http://dl-cdn.alpinelinux.org/alpine/v3.18/releases"
     versions:

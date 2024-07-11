@@ -17,15 +17,7 @@ from tqdm import tqdm
 # Local modules
 from container import Container
 from images import Image
-
-# Necessary variables
-home = os.getenv('HOME')
-atlas_home = home + '/.config/atlas/'
-temp_path  = atlas_home + 'tmp/'
-container_path = atlas_home + "containers/"
-atlas_conf = atlas_home + 'local.yaml'
-atlas_remote = atlas_home + 'remote.yaml'
-ver = '2.99.0'
+import variables
 
 # create necessary folders
 def check_dir():
@@ -33,36 +25,11 @@ def check_dir():
         os.mkdir(atlas_home)
     if not os.path.isdir(container_path):
         os.mkdir(container_path)
+    if not os.path.isdir(registries_path):
+        os.mkdir(registries_path)
     if not os.path.isdir(temp_path):
         os.mkdir(temp_path)
 
-# Check system architecture
-def check_arch():
-    arch = os.uname().machine
-    if arch == 'aarch64' or 'armv8' in arch:
-        arch = 'aarch64'
-    elif '86' in arch:
-        arch = 'i386'
-    elif 'arm' in arch:
-        arch = 'arm'
-    return arch
-
-# Get list
-def get_list():
-    try:
-        r = requests.get('https://cdn.jsdelivr.net/gh/GT-610/atlas/src/list.yaml')
-    except requests.exceptions.ConnectionError as e:
-        print('Connection error:', e)
-        exit(1)
-    if not r.status_code == 200:
-        print('Failed to get image list.')
-        exit(1)
-    return yaml.load(r.text, Loader = yaml.SafeLoader)
-
-#Save the remote data
-def save_local(data):
-    with open(atlas_remote, 'w') as file:
-        yaml.dump(data, file)
 
 #Load local data
 def load_local(conf):

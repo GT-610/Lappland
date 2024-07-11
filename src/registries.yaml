@@ -1,4 +1,8 @@
 registries:
-  official_registry:
-    url: ""
-    demand: all
+  official_distribution:
+    prefix: "atlas"
+    location: "https://cdn.jsdelivr.net/gh/GT-610/atLAs@master/src/official_registry/official_distribution.yaml"
+
+  proot_distro_ports:
+    prefix: "proot_distro"
+    location: "https://cdn.jsdelivr.net/gh/GT-610/atLAs@master/src/official_registry/proot_distro_ports.yaml"

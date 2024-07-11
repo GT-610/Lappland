@@ -1,4 +1,4 @@
-distributions:
+images:
   alpine:
     name: "Alpine"
     base_url: "https://github.com/termux/proot-distro/releases/download/v4.6.0"
