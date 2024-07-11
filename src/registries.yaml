@@ -1,0 +1,4 @@
+registries:
+  official_registry:
+    url: ""
+    demand: all
