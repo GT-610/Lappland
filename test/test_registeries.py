@@ -106,13 +106,72 @@ def test_fetch_remote_registry_while_success(mock_get, capsys):
         os.remove(registries_yaml_path)
 
     mock_get.return_value.status_code = 200
-    mock_get.return_value.text = "Mocked remote images YAML data"
+    mock_get.return_value.text = """
+    images:
+        eximage:
+          name: "Example image"
+          base_url: "https://example.com/images"
+          variants:
+            - arch: aarch64
+              file: "eximage-aarch64.tar.xz"
+              sha256: "000001"
+
+            - arch: x86_64
+              file: "eximage-x86_64.tar.xz"
+              sha256: "000002"
+          version: 24.07
+
+        not_an_eximage:
+          name: "Not an example image"
+          base_url: "https://example.com/images"
+          variants:
+            - arch: aarch64
+              file: "notaneximage-aarch64.tar.xz"
+              sha256: "000003"
+
+            - arch: x86_64
+              file: "notaneximage-x86_64.tar.xz"
+              sha256: "000005"
+          version: 8.9
+    update: '2024-07-10'
+    """
 
     remote_reg_data = fetch_remote_registry("example", "https://example.com/example_image_list.yaml")
     
     captured = capsys.readouterr()
     assert "Fetching example..." in captured.out
-    assert remote_reg_data == "Mocked remote images YAML data"
+    assert remote_reg_data == {
+        'images': {
+            'eximage': {
+                'name': 'Example image',
+                'base_url': 'https://example.com/images',
+                'variants':[{
+                    'arch': 'aarch64',
+                    'file': 'eximage-aarch64.tar.xz',
+                    'sha256': '000001'
+                }, {
+                    'arch': 'x86_64',
+                    'file': 'eximage-x86_64.tar.xz',
+                    'sha256': '000002'
+                }],
+                'version': 24.07
+            }, 
+            'not_an_eximage': {
+                'name': 'Not an example image',
+                'base_url': 'https://example.com/images',
+                'variants': [{
+                    'arch': 'aarch64',
+                    'file': 'notaneximage-aarch64.tar.xz',
+                    'sha256': '000003'
+                }, {
+                    'arch': 'x86_64',
+                    'file': 'notaneximage-x86_64.tar.xz',
+                    'sha256': '000005'}],
+                    'version': 8.9
+            },
+        },
+        'update': '2024-07-10'
+    }
 
 @patch('requests.get')
 def test_fetch_remote_registry_but_404(mock_get, capsys):
@@ -126,3 +185,38 @@ def test_fetch_remote_registry_but_404(mock_get, capsys):
     captured = capsys.readouterr()
     assert "Failed to reach list of example. Status code: 404" in captured.out
     assert remote_reg_data == None
+
+def test_read_image_success(capsys):
+    remote_yaml_text = """
+    images:
+        eximage:
+          name: "Example image"
+          base_url: "https://example.com/images"
+          variants:
+            - arch: aarch64
+              file: "eximage-aarch64.tar.xz"
+              sha256: "000001"
+
+            - arch: x86_64
+              file: "eximage-x86_64.tar.xz"
+              sha256: "000002"
+          version: 24.07
+
+        not_an_eximage:
+          name: "Not an example image"
+          base_url: "https://example.com/images"
+          variants:
+            - arch: aarch64
+              file: "notaneximage-aarch64.tar.xz"
+              sha256: "000003"
+
+            - arch: x86_64
+              file: "notaneximage-x86_64.tar.xz"
+              sha256: "000005"
+          version: 8.9
+    update: '2024-07-10'
+    """
+    remote_yaml = yaml.safe_load(remote_yaml_text)
+    image_data = read_image(remote_yaml, "example/eximage", "aarch64")
+
+    assert image_data["prefix"] == "eximage"

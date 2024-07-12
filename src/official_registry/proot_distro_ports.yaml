@@ -2,7 +2,7 @@ images:
   alpine:
     name: "Alpine"
     base_url: "https://github.com/termux/proot-distro/releases/download/v4.6.0"
-    versions:
+    variants:
       - arch: aarch64
         file: "alpine-aarch64-pd-v4.6.0.tar.xz"
         sha256: "bffe6373dea84dce6a25c94f225ccdaec96c825710d655aa1f4cae79333edea6"
@@ -23,7 +23,7 @@ images:
   archlinux:
     name: "Arch Linux"
     base_url: "https://github.com/termux/proot-distro/releases/download/v4.6.0"
-    versions:
+    variants:
       - arch: aarch64
         file: "archlinux-aarch64-pd-v4.6.0.tar.xz"
         sha256: "7e87d551845aedae5a111d1fdcc2f5a69b0805f365244f3fab3fe67cd4114f00"

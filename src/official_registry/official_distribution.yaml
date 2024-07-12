@@ -1,18 +1,17 @@
 images:
   alpine:
     base_url: "http://dl-cdn.alpinelinux.org/alpine/v3.18/releases"
-    versions:
+    variants:
       - arch: aarch64
         file: "alpine-minirootfs-3.18.2-aarch64.tar.gz"
       - arch: amd64
         file: "alpine-minirootfs-3.18.2-x86_64.tar.gz"
-      # ...
     shell: ash
     version: 3.18
     check: sha256
   centos:
     base_url: "https://github.com/CentOS/sig-cloud-instance-images/raw/CentOS-8-{arch}/docker"
-    versions:
+    variants:
       - arch: aarch64
         file: "CentOS-8-aarch64.tar.xz"
       - arch: amd64

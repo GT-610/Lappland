@@ -55,24 +55,25 @@ def fetch_remote_registry(prefix, location):
 
 
 # Parse the remote registry
-# Returns: Image download link
-def read_image(remote_yaml, image_name, arch):
+# Returns: Image information
+def read_image(remote_yaml, prefix_image, arch):
     # Parse the image name
     _, image_name = prefix_image.split('/')
 
-    if image_name in yaml_data.get('images', {}):
-        image = yaml_data['images'][image_name]
+    if image_name in remote_yaml.get('images', {}):
+        print(remote_yaml)
+        image = remote_yaml['images'][image_name]
 
         # 查找匹配架构的版本信息
-        for version in image.get('versions', []):
+        for version in image.get('variants', []):
             if version['arch'] == arch:
                 url = image.get('base_url') + version.get('file')
                 # 返回找到的详细信息
                 return {
-                    'name': image.get('name'),
+                    'prefix': image_name,
                     'url': url,
                     'arch': version.get('arch'),
                     'sha256': version.get('sha256'),
                 }
-
+    print("Failed to read image information in the registry list.")
     return None
