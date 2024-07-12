@@ -218,5 +218,10 @@ def test_read_image_success(capsys):
     """
     remote_yaml = yaml.safe_load(remote_yaml_text)
     image_data = read_image(remote_yaml, "example/eximage", "aarch64")
-
-    assert image_data["prefix"] == "eximage"
+    assert image_data == {
+        'arch': 'aarch64',
+        'filename': 'eximage-aarch64.tar.xz',
+        'prefix': 'eximage',
+        'sha256': '000001',
+        'url': 'https://example.com/imageseximage-aarch64.tar.xz'
+    }

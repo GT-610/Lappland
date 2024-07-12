@@ -71,6 +71,7 @@ def read_image(remote_yaml, prefix_image, arch):
                 # 返回找到的详细信息
                 return {
                     'prefix': image_name,
+                    'filename': version.get('file'),
                     'url': url,
                     'arch': version.get('arch'),
                     'sha256': version.get('sha256'),

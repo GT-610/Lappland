@@ -37,14 +37,6 @@ def load_local(conf):
     with open(conf, 'r') as file:
         return yaml.load(file, Loader = yaml.SafeLoader)
 
-#Using hashes (MD5 and SHA256) to check its status
-#Calculate SHA256
-def calc_sha256(data):
-    return hashlib.sha256(yaml.dump(data).encode()).hexdigest()
-
-#Calculate MD5SUMS
-def calc_md5(data):
-    return hashlib.md5(yaml.dump(data).encode()).hexdigest()
 
 #Define a bool to return if the list is up to date
 def is_local_list_up_to_date(remote_md5,remote_sha256):
@@ -92,56 +84,7 @@ def show_list():
         table.add_row([name,version,installed,installable])
     print(table.get_string())
 
-#Pull image
-def pull_image(distro):
-    arch = check_arch()
-    lists = get_list()
-    config = load_local()
-    distro_tmp = temp_path + distro
-    if distro in config.keys():
-        print(distro + ' have been already installed')
-        exit(1)
-    if distro not in lists.keys():
-        print(distro + ' isn''t avaliable')
-        exit(1)
-    infos = lists.get(distro)
-    if arch not in infos.keys():
-        print(distro + ' doesn''t support your CPU architecture')
-        exit(1)
-    if os.path.isfile(distro_tmp):
-        print(distro + ' already downloaded, skipping downloading...')
-    else:
-        url = infos.get(arch)
-        print('Pulling rootfs')
-        r = requests.get(url,stream=True)
-        if not r.status_code == 200:
-            print('Something is wrong. Try again.')
-            print('Network Error')
-            exit(1)
-        total_size = int(r.headers.get('Content-Length'))
-        block_size = io.DEFAULT_BUFFER_SIZE
-        t = tqdm(total=total_size,unit='iB',unit_scale=True)
-        with open(temp_path + distro,'wb') as f:
-            for chunk in r.iter_content(block_size):
-                t.update(len(chunk))
-                f.write(chunk)
-        r.close()
-        t.close()
-    if infos.get('check') == 'ubuntu':
-        check_url = 'https://partner-images.canonical.com/core/' + infos.get('version') + '/current/MD5SUMS'
-        check_sum_ubuntu(distro,check_url)
-    elif infos.get('check') == 'no':
-        print(distro + ' has no check method')
-        print('skiping')
-    else:
-        check_url = url + '.' + infos.get('check')
-        check_sum(distro=distro,url=check_url,check=infos.get('check'))
-    
-    if not infos.get('zip') == 'fedora':
-        extract_file(distro,infos.get('zip'))
-    else:
-        extract_fedora()
-    config_image(distro,infos)
+
 
 def remove_image(distro):
     distro_path = atlas_home + distro
@@ -195,72 +138,6 @@ def extract_fedora():
     if not os.path.isdir(distro_path):
         os.mkdir(distro_path)
     zip_f.extractall(distro_path,numeric_owner=True)
-    
-
-def check_sum(distro,url,check):
-    print('Checking file integrity')
-    r = requests.get(url)
-    file_path = temp_path + distro
-    if not r.status_code == 200:
-        print('Can''t get checksum file,are you sure to continue? [y/N]',end=' ')
-        a = ''
-        input(a)
-        if a == 'y' or a == 'Y':
-            return
-        else:
-            print('Exiting')
-            os.remove(file_path)
-            exit(1)
-    sum_calc = hashlib.md5() if check == 'md5' else  hashlib.sha256()
-    total_size = os.path.getsize(file_path)
-    block_size = io.DEFAULT_BUFFER_SIZE
-    t = tqdm(total=total_size,unit='iB',unit_scale=True)
-    with open(file_path,'rb') as f:
-        for chunk in iter(lambda: f.read(block_size ), b''):
-            t.update(len(chunk))
-            sum_calc.update(chunk)
-    t.close()
-    f.close()
-
-    if sum_calc.hexdigest() in r.text:
-        print('Checksum successfully')
-        return 0
-    else:
-        print('Checksum error')
-        print('Removing file')
-        print('Exiting')
-        os.remove(file_path)
-        exit(1)
-
-def check_sum_ubuntu(distro,url):
-    r = requests.get(url)
-    file_path = temp_path + distro
-    if not r.status_code == 200:
-        print('Can''t get checksum file,are you sure to continue? [y/n]',end=' ')
-        a = ''
-        input(a)
-        if not a == 'y':
-            print('Exiting')
-            os.remove(file_path)
-            exit(1)
-    sum_calc = hashlib.md5()
-    total_size = os.path.getsize(file_path)
-    block_size = io.DEFAULT_BUFFER_SIZE
-    t = tqdm(total=total_size,unit='iB',unit_scale=True)
-    with open(file_path,'rb') as f:
-        for chunk in iter(lambda: f.read(block_size),b''):
-            t.update(len(chunk))
-            sum_calc.update(chunk)
-    t.close()
-    f.close()
-
-    if sum_calc.hexdigest() in r.text:
-        return 0
-    else:
-        print('Checksum error')
-        print('Exiting')
-        os.remove(file_path)
-        exit(1)
 
 def clean_tmps():
     print('Cleaning temporary files')
