@@ -3,9 +3,9 @@ import os
 # Necessary variables
 home = os.getenv('HOME')
 atlas_home = os.path.join(home,".config/atlas/")
-temp_path  = os.path.join(atlas_home, "tmp/")
+# temp_path  = os.path.join(atlas_home, "tmp/")
 image_path = os.path.join(atlas_home, "images/")
-container_path = atlas_home + "containers/"
+containers_path = atlas_home + "containers/"
 registries_path = atlas_home + 'registries/'
 ver = '2.99.0'
 
@@ -26,9 +26,10 @@ arch = check_arch()
 def check_dir():
     if not os.path.isdir(atlas_home):
         os.mkdir(atlas_home)
-    if not os.path.isdir(container_path):
-        os.mkdir(container_path)
+    if not os.path.isdir(images_path):
+    	os.mkdir(images_path)
+    if not os.path.isdir(containers_path):
+        os.mkdir(containers_path)
     if not os.path.isdir(registries_path):
         os.mkdir(registries_path)
-    if not os.path.isdir(temp_path):
-        os.mkdir(temp_path)
+

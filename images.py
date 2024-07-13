@@ -73,7 +73,7 @@ def remove_image(prefix_image):
             print(f'Removing {prefix_image} failed: {e.strerror}')
 
     else:
-        print(f'{prefix_image} does not exist. Nothing to do.')
+        print(f'{prefix_image} does not exist. There is nothing to do.')
         return None
 
 

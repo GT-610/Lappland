@@ -1,105 +1,78 @@
 import yaml
 import datetime
 import uuid
-from images import Image
+from variables import containers_path
 
-# Necessary variables
-home = os.getenv('HOME')
-lappland_home = home + '/.config/lappland/'
-temp_path  = lappland_home + 'tmp/'
-container_path=lappland_home + "containers/"
-
-# Container main class
-class Container:
-
-    def __init__(self,name,image,version):
-        self.name=name
-        self.image=image
-        self.version=version
-
-    def create_container(self,name,image,version):
-        # Try to open list.yaml in append mode, this will create the file if it doesn't exist
-        # If it exists, this will just pass 
-        with open('list.yaml', 'a'):
-            pass
+def create_container(self,name,image,version):
         
-        # Read list.yaml
-        with open('list.yaml', 'r') as f:
-            data = yaml.safe_load(f)
+   # TODO: Read the created containers list
+   
 
-        # Check if the container name exists
-        for container in data:
-            if name == container["name"]:
-                raise ValueError(f"Container '{name}' already exists.")
+   # Check if the container name exists
+   for container in created_containers:
+       if name == container["name"]:
+           raise ValueError(f"Container '{name}' already exists.")
 
-        # When everything is ready, start creating the container
+   # If container name isn't used, accept the creation request
 
-        # Generate a UUID to identify the container
-        uuid = str(uuid.uuid4())
+   # Generate a UUID to identify the container
+   uuid = str(uuid.uuid4())
 
-        # Get the create time
-        created = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+   # Get the create time
+   created = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        # Create the folder for the container
-        path = container_path + uuid
+   # Create the folder for the container
+   path = containers_path + uuid
 
-        # Create a container parameter
-        container = {
-            "name": name,
-            "uuid": uuid,
-            "image": image,
-            "version": version,
-            "created": created,
-            "path": path,
-        }
+   # Create a container parameter
+   container = {
+       "name": name,
+       "uuid": uuid,
+       "image": image,
+       "version": version,
+       "created": created,
+       "path": path,
+   }
 
-        # Add the container into the data
-        data.append(container)
+   # Add the container into the data
+   created_containers.append(container)
 
-        # Write back to list.yaml
-        with open('list.yaml', 'w') as f:
-            yaml.safe_dump(data, f)
+   # Write back to created container list
 
-    # Delete a container
-    def delete_container(self, name):
-        # Read list.yaml
-        with open('list.yaml', 'r') as f:
-            data = yaml.safe_load(f)
 
-        container_path = None
+# Remove a container
+def remove_container(self, name):
+    # TODO: Read created container list
 
-        # Find the container by name and get its path
-        for container in data:
-            if name == container["name"]:
-                container_path = container.get("path")
-                break
+    # Find the container by name and get its path
+    for container in created_containers:
+        if name == container["name"]:
+             container_path = os.path.join(containers_path, container.get("path"))
+             break
 
-        if container_path:
-            # Delete the container's directory and its contents
-            shutil.rmtree(container_path)
+    if container_path:
+         # Delete the whole container's directory and its contents
+         shutil.rmtree(container_path)
 
-            # Remove the container from data
-            data = [c for c in data if c["name"] != name]
+         # Remove the container from data
+         data = [c for c in data if c["name"] != name]
 
-            # Write back to list.yaml
-            with open('list.yaml', 'w') as f:
-                yaml.safe_dump(data, f)
-        else:
-            raise ValueError(f"Container '{name}' not found.")
+         # TODO: Write back to list.yaml
+    
+    else:
+         raise ValueError(f"Container '{name}' not found.")
 
-    # Change the name of a container
-    def change_name(self,new_name,previous_name):
-        # Read list.yaml
-        with open('list.yaml', 'r') as f:
-            data = yaml.safe_load(f)
+# Rename a container
+def rename_container():
+    # TODO: Read the created container list
 
-        container_index = None
+    container_index = None
 
-        # Find the container by old_name and get its index
-        for index, container in enumerate(data):
-            if old_name == container["name"]:
-                container_index = index
-                break
+    # Find the container by old_name and get its index
+    for index, container in enumerate(created_containers):
+        if old_name == container["name"]:
+            container_index = index
+            break
 
         if container_index is not None:
             # Modify the name of the container
