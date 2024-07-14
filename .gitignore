@@ -2,8 +2,6 @@
 .venv/
 ./github
 test_env/
-atilo.1
-atilo
-CN/
-src/conv_yaml.py
+./atilo
+src/list_cn.json
 **/__pycache__

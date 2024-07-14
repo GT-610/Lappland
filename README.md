@@ -4,11 +4,11 @@ This project has **NOT** been finished. It is still **WORKING IN PROGRESS** and 
 I'm re-writing the whole program, and it might take some time.
 
 # atLAs
-atLAs is a Python script that helps you run and manage GNU/Linux distributions on Termux without root.
+atLAs is a Python script that helps you run and manage GNU/Linux distributions (or more) on Termux without root access.
 
 ## Features
 * Run, manage and pack your distributions just like managing containers
-* Use multiple mirrors, custom links
+* Use multiple registries, custom links
 * Run and deploy in a single line
 * No root access is required thanks to `proot`
 
@@ -16,24 +16,23 @@ atLAs is a Python script that helps you run and manage GNU/Linux distributions o
 WIP
 
 ## Usage
-
-``` bash
-atlas [Command] [Argument]
-```
-
-|Command|Meaning                   |
-|:-----:|:------------------------:|
-|images |list available images     |
-|remove |remove a local image      |
-|pull   |pull a remote image       |
-|run    |start a local image       |
-|clean  |clean temporary files     |
-|help   |show detailed help message|
-
-## Supported distributions
 WIP
 
-## GUI
+## Officially maintained images
+### Former maintained by `Atilo`
+* Alpine
+* CentOS 8
+* Debian
+* Fedora
+* Kali Linux
+* OpenSUSE
+* Ubuntu
+
+### `Proot-distro` ports
+* Alpine
+* Arch Linux
+
+## GUI and desktop environments
 
 [Using GUI on Termux (X11 method)](https://ivonblog.com/en-us/posts/termux-x11/)
 

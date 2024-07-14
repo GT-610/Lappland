@@ -32,6 +32,6 @@ images:
         file: "archlinux-arm-pd-v4.6.0.tar.xz"
         sha256: 9edc60150ffdeae42b05fdcffdf06226641c442673f66b64af369504abe83a4b"
     version: rolling
-    setup: "setup_scripts/archlinux.sh"
+    script: "setup_scripts/proot-distro/archlinux.sh"
 
 update: '2024-07-10'
